@@ -17,7 +17,7 @@
 </template>
 
 <script>
-   let echarts = require('echarts');
+  let echarts = require('echarts');
   let axios = require('axios')
   export default {
     name:'geoMap',
@@ -25,10 +25,10 @@
 
       let res = axios.get('/api/china.json').then(res => {
 
-          let ret = axios.get('/api/LiBai_charonicle.json').then(response => {
+        let ret = axios.get('/api/LiBai_charonicle.json').then(response => {
 
-            this.initData(res.data,response.data)
-          })
+          this.initData(res.data,response.data)
+        })
       })
 
 
@@ -45,17 +45,17 @@
           geopoints[i-701]=[];
           time.push(i-701);
           if(points[i+''] != null)
-          for(let j=0;j<points[i+''].places.length;j++)
-          {
-            geopoints[i-701].push({
-              name:points[i+''].places[j],
-              value:[points[i+''].points[j][0],points[i+''].points[j][1],1]
-            })
-            totalpoints.push({
-              name:points[i+''].places[j],
-              value:[points[i+''].points[j][0],points[i+''].points[j][1],i-701]
-            })
-          }else{
+            for(let j=0;j<points[i+''].places.length;j++)
+            {
+              geopoints[i-701].push({
+                name:points[i+''].places[j],
+                value:[points[i+''].points[j][0],points[i+''].points[j][1],1]
+              })
+              totalpoints.push({
+                name:points[i+''].places[j],
+                value:[points[i+''].points[j][0],points[i+''].points[j][1],i-701]
+              })
+            }else{
             geopoints[i-701]=geopoints[i-702];
           }
         }
@@ -65,36 +65,36 @@
         for(let i=0;i<time.length;i++)
         {
           if(i==0)
-          ops.push(
-          {
-            series:{
-                name: time[i]+'',
-                type: 'effectScatter',
-                coordinateSystem: 'geo',
-                data:totalpoints,
-                symbolSize: 15,
-                label: {
-                  show:true,
-                   formatter:function(params){
-                     return params.name
-                   }
-                },
-              }
-          })
+            ops.push(
+              {
+                series:{
+                  name: time[i]+'',
+                  type: 'effectScatter',
+                  coordinateSystem: 'geo',
+                  data:totalpoints,
+                  symbolSize: 15,
+                  label: {
+                    show:true,
+                    formatter:function(params){
+                      return params.name
+                    }
+                  },
+                }
+              })
           else ops.push({
             series:{
-                name: time[i]+'',
-                type: 'effectScatter',
-                coordinateSystem: 'geo',
-                data:geopoints[i],
-                symbolSize: 15,
-                label: {
-                  show:true,
-                   formatter:function(params){
-                     return params.name+'\n'+i
-                   }
-                },
-              }
+              name: time[i]+'',
+              type: 'effectScatter',
+              coordinateSystem: 'geo',
+              data:geopoints[i],
+              symbolSize: 15,
+              label: {
+                show:true,
+                formatter:function(params){
+                  return params.name+'\n'+i
+                }
+              },
+            }
           })
         }
         console.log(ops)
@@ -110,57 +110,57 @@
           baseOption:{
             backgroundColor: '#DEB887',
             title: {
-                text: '唐朝李白诗人轨迹',
-                subtext: '701年-762年',
-                x:'center',
+              text: '唐朝李白诗人轨迹',
+              subtext: '701年-762年',
+              x:'center',
             },
             tooltip: {
-                show:false
+              show:false
             },
             timeline:{
-               axisType: 'category',
-               symbol:'none',
-               playInterval:1000,
-               left:null,
-               orient:'vertical',
-               right:-12,
-               top:20,
-               bottom:20,
-               width:50,
-               controlStyle:{
-                  showNextBtn: false,
-                  showPrevBtn: false,
-                  normal: {
-                      color: '#666',
-                      borderColor: '#666'
-                  },
-                  emphasis: {
-                      color: '#aaa',
-                      borderColor: '#aaa'
-                  }
-               },
-               data:time
+              axisType: 'category',
+              symbol:'none',
+              playInterval:1000,
+              left:null,
+              orient:'vertical',
+              right:-12,
+              top:20,
+              bottom:20,
+              width:50,
+              controlStyle:{
+                showNextBtn: false,
+                showPrevBtn: false,
+                normal: {
+                  color: '#666',
+                  borderColor: '#666'
+                },
+                emphasis: {
+                  color: '#aaa',
+                  borderColor: '#aaa'
+                }
+              },
+              data:time
             },
             geo: {
-             map: 'china',
-             center:[102.9199,30.1904],
-             zoom:3,
-             itemStyle: {
-                 shadowBlur:5,
-             },
-             roam:true,
-             scaleLimit:{
-                 min:2,
-                 max:12
-               }
-           },
+              map: 'china',
+              center:[102.9199,30.1904],
+              zoom:3,
+              itemStyle: {
+                shadowBlur:5,
+              },
+              roam:true,
+              scaleLimit:{
+                min:2,
+                max:12
+              }
+            },
             series:[
-                {
-                  type:'effectScatter',
-                  coordinateSystem: 'geo',
-                }
-              ]
-         },
+              {
+                type:'effectScatter',
+                coordinateSystem: 'geo',
+              }
+            ]
+          },
 
           options:ops
 
@@ -174,8 +174,8 @@
 
 <style>
   #map{
-    width: 760px;
-    height: 980px;
+    width: 40%;
+    height: 100%;
     position: absolute;
   }
 
@@ -185,8 +185,8 @@
     margin-top: 5px;
   }
   #photo img{
-    width: 100px;
-    height: 160px;
+    width: 15%;
+    height: 25%;
   }
   #intro{
     float: right;
