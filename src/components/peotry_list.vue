@@ -18,8 +18,8 @@
   export default{
     name:'peotryList',
     mounted:function(){
-     let res = axios.get('/api/Poet-time.json').then(res => {
-       // var ret = d3.csvParse(res.data)
+      let res = axios.get('/api/Poet-time.json').then(res => {
+        // var ret = d3.csvParse(res.data)
         let data = [];
         for(let i=0;i<res.data.length;i++)
         {
@@ -29,7 +29,7 @@
           });
         }
         this.addList(data)
-        })
+      })
 
     },
     methods:{
@@ -45,7 +45,6 @@
             td.className = 'peotries'
             td.innerHTML = data[i].title;
             raw.appendChild(td)
-
           }
           table.appendChild(raw)
         }
@@ -82,8 +81,8 @@
 
 <style>
   #plist{
-    width: 500px;
-    height: 560px;
+    width: 100%;
+    height: 65%;
     border: 1px solid #aaa;
     background: antiquewhite;
     text-align: center;
@@ -91,14 +90,14 @@
   }
   #plist ul:nth-child(2){
     width: 100%;
-    height: 250px;
+    height: 44%;
     overflow-x: hidden;
     overflow-y: scroll;
     float: left;
   }
   h2{
     width: 100%;
-    height: 50px;
+    height: 6%;
     background: #DEB887;
     border: 1px solid #aaa;
   }
@@ -124,7 +123,7 @@
   }
   #contents{
     width: 100%;
-    height: 310px;
+    height: 50%;
     line-height: 50px;
     background: antiquewhite;
     text-align: center;
