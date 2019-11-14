@@ -5,11 +5,13 @@
 </template>
 
 <script>
-  let axios = require('axios')
 
+  import { mapGetters} from 'vuex'
+  import pubsub from 'pubsub-js'
+  let axios = require('axios')
+  let jq = require('jquery')
   let echarts = require('echarts');
   let eclouds = require('echarts-wordcloud')
-
 
   export default {
 
@@ -18,8 +20,11 @@
     mounted:function(){
 
       let res = axios.get('/api/Emotion.json').then(res => {
-        console.log(res.data)
         this.drawWords(res.data)
+      })
+
+      pubsub.subscribe('pub_mapdata',function (msg, data) {
+        console.log(data)
       })
 
     },
@@ -29,7 +34,6 @@
       drawWords(data){
 
         var myChart = echarts.init(document.getElementById('clouds'))
-
         var option = {
           title: {
             text: '词云',//标题
@@ -37,9 +41,8 @@
             textStyle: {
               fontSize: 23
             }
-
           },
-          backgroundColor: '#F7F7F7',
+          backgroundColor: 'burlywood',
           tooltip: {
             show: true
           },
@@ -49,6 +52,8 @@
             sizeRange: [16,70],//画布范围，如果设置太大会出现少词（溢出屏幕）
             rotationRange: [-45, 90],//数据翻转范围
             shape: 'rect',
+            clickable : true,
+            // background:'#DEB887',
             textPadding: 0,
             autoSize: {
               enable: true,
@@ -73,19 +78,36 @@
             //name和value建议用小写，大写有时会出现兼容问题
           }]
         };
+        myChart.on('click',function(params){
+          var pub_cloudType=params.data.name;
+            console.log(params.data.name);
+            pubsub.publish('pub_cloudType',pub_cloudType);
+        });
         // 绘制图表
         myChart.setOption(option);
       }
-    }
+    },
+  /*  computed:{
+      ...mapGetters({'stormapdata': 'getMapdata'}),
+    },
+    watch:{
+      stormapdata:{
+        handler(newVal){
+         console.log("aaaaa")
+        },
+        deep:true
+      },
+    }*/
 
   }
 </script>
 
 <style>
   #clouds{
-    width: 100%;
+    margin-right:2%;
+    width: 97%;
     height: 35%;
-    border: 1px solid #aaa;
+    border: 3px solid #000;
     background: burlywood;
 
   }

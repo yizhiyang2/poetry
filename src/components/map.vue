@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="map">
-
     </div>
     <div id="photo">
       <img src="../../static/libai_photo.jpg" />
@@ -15,9 +14,9 @@
   </div>
 
 </template>
-
 <script>
-  let echarts = require('echarts');
+  import pubsub from 'pubsub-js'
+  let echarts = require('echarts')
   let axios = require('axios')
   export default {
     name:'geoMap',
@@ -26,10 +25,12 @@
       let res = axios.get('/api/china.json').then(res => {
 
         let ret = axios.get('/api/LiBai_charonicle.json').then(response => {
-
           this.initData(res.data,response.data)
+          this.store.commit("map",response.data)
         })
       })
+
+
 
 
     },
@@ -123,9 +124,9 @@
               playInterval:1000,
               left:null,
               orient:'vertical',
-              right:-12,
+              right:-10,
               top:20,
-              bottom:20,
+              bottom:0,
               width:50,
               controlStyle:{
                 showNextBtn: false,
@@ -143,15 +144,15 @@
             },
             geo: {
               map: 'china',
-              center:[102.9199,30.1904],
-              zoom:3,
+              center:[115.9199,33.1904],
+              zoom:0,
               itemStyle: {
                 shadowBlur:5,
               },
               roam:true,
               scaleLimit:{
                 min:2,
-                max:12
+                max:10
               }
             },
             series:[
@@ -167,6 +168,12 @@
         }
         chart.setOption(option);
 
+        chart.on('click', (d)=>{
+          // this.$store.commit('mapdata',d.value)
+          pubsub.publish('pub_mapdata',d)
+
+        })
+
       }
     }
   }
@@ -174,8 +181,8 @@
 
 <style>
   #map{
-    width: 40%;
-    height: 100%;
+    width: 80%;
+    height: 60%;
     position: absolute;
   }
 
@@ -183,13 +190,13 @@
     position: absolute;
     margin-left: 5px;
     margin-top: 5px;
-  }
-  #photo img{
+  } 
+#photo img{
     width: 15%;
     height: 25%;
   }
   #intro{
-    float: right;
+    float: left;
     margin-top: 40px;
     color: #555;
   }

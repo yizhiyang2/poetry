@@ -11,10 +11,15 @@
       <peoMap class='china_map'></peoMap>
     </div>
 
-    <div class="right">
+    <!-- <div class="right">
       <peo-history></peo-history>
       <peo-relation class='relation'></peo-relation>
-
+    </div> -->
+    
+    <div class="bottom"> 
+      <peo-note></peo-note>
+      <!-- <peo-history></peo-history> -->
+      <peo-relation></peo-relation>
     </div>
   </div>
 </template>
@@ -25,6 +30,7 @@
   import peoMap from './components/map';
   import peoRelation from './components/relationship';
   import peoHistory from './components/bgevents'
+  import peoNote from './components/peotry_note'
 
   export default {
     name: 'App',
@@ -33,7 +39,8 @@
       peotryList,
       peoMap,
       peoRelation,
-      peoHistory
+      peoHistory,
+      peoNote
     }
   }
 </script>
@@ -53,6 +60,7 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    position: absolute;
   }
   .left{
     float:left;
@@ -61,20 +69,28 @@
   }
   .center{
     float: left;
-    width: 40%;
-    height: 100%;
+    width: 75%;
+    height: 60%;
     /* height: 100%; */
   }
-  .right{
+  /* .right{
     float: right;
     height: 100%;
     right: 0px;
     width: 35%;
     box-shadow: -2px 0px 10px saddlebrown;
-  }
-  .relation{
+  } */
+  /* .relation{
     margin-right: 10%;
     background: whitesmoke;
+  } */
+  .bottom{
+    position: absolute;
+    height: 40%;
+    width: 75%;
+    bottom: 0;
+    margin-bottom: 2%;
+    right:0 ;
   }
 
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div id="history">
-
+  <div id="history-container">
+  </div>
   </div>
 </template>
 
@@ -37,10 +38,10 @@
     methods:{
       drawhistory(data){
         var chart = new G2.Chart({
-          container: 'history',
+          container: 'history-container',
           forceFit: true,
           width: innerWidth*0.28,
-          height: innerHeight*0.35,
+          height: innerHeight*0.33,
           padding:'auto'
         });
 
@@ -67,8 +68,18 @@
 
 <style>
   #history{
-    width: 100%;
-    height: 35%;
+    width: 50%;
+    height: 100%;
+    margin-top: 2%;
+    left: 0;
     background: antiquewhite;
+    float: left;
+    
+  }
+  #history-container
+  {
+    width: 100%;
+    height: 90%;
+    margin-top: 5%;
   }
 </style>
