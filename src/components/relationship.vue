@@ -20,7 +20,7 @@
           graph.category = [{name:'00'}]
         graph.node.push({
           name:"李白",
-          symbolSize:50,
+          symbolSize:40,
           tooltip:{
             show:false
           },
@@ -33,7 +33,7 @@
         {
           graph.node.push({
             name:data[i].name,
-            symbolSize:30+data[i].value*10,
+            symbolSize:10+data[i].value*10,
             tooltip:{
               show:false
             },
@@ -67,7 +67,7 @@
             text:"关系图谱",
             left:20
           },
-          animationDurationUpdate: 1000,
+          animationDurationUpdate: 500,
           animationEasingUpdate: "quinticInOut",
 
           series: [{
@@ -81,7 +81,7 @@
             animation:false,
             force: {
               repulsion: 200,
-              edgeLength: [10,50]
+              edgeLength: [5,20]
             },
             emphasis: {
               itemStyle: {
@@ -117,13 +117,21 @@
 <style>
   #outer{
     /* margin-left: 50px; */
-    width: 100%;
-    height: 65%;
-    background: whitesmoke;
-    border:1px solid #aaa;;
+    width: 49%;
+    height: 100%;
+    margin-top: 2%;
+    /* border:1px solid #aaa; */
+    float: left;
+    background:#DEB887;
+    
   }
   #relation{
     width: 100%;
     height: 100%;
+    /* margin-left: -60%; */
+    float: left;
+    left: 2px;
+    background:#DEB887;
+    border: 2px solid #000;
   }
 </style>
