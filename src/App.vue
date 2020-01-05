@@ -1,4 +1,4 @@
-<template>
+npm run<template>
   <div id="app">
     <!-- <img src="./assets/logo.png">
     <router-view/> -->
@@ -15,8 +15,8 @@
       <peo-history></peo-history>
       <peo-relation class='relation'></peo-relation>
     </div> -->
-    
-    <div class="bottom"> 
+
+    <div class="bottom">
       <peo-note></peo-note>
       <!-- <peo-history></peo-history> -->
       <peo-relation></peo-relation>
