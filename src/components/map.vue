@@ -23,44 +23,72 @@
     mounted:function(){
 
       let res = axios.get('/api/china.json').then(res => {
-
-        let ret = axios.get('/api/LiBai_charonicle.json').then(response => {
-          this.initData(res.data,response.data)
-          this.store.commit("map",response.data)
-        })
+          let ll=axios.get('/api/LiBai_charonicle2.json').then(ll2=>{
+            this.initData(res.data,ll2.data);
+            this.$store.commit("map",ll2.data);
+          })
       })
-
-
-
-
     },
 
     methods:{
 
-      initData(datamap,points){
+      initData(datamap,points2){//处理数据
+        // let geopoints = [];
+        // let totalpoints = [];
+        // let time = ['701'];
+        // for(let i=701;i<761;i++)//处理时间轴
+        // {
+        //   geopoints[i-701]=[];
+        //   time.push(i-701);
+        //   if(points[i+''] != null){
+        //     //console.log(points[i])
+        //     for(let j=0;j<points[i+''].places.length;j++)
+        //     {
+        //       geopoints[i-701].push({
+        //         name:points[i+''].places[j],
+        //         value:[points[i+''].points[j][0],points[i+''].points[j][1],1]
+        //       })
+        //       totalpoints.push({
+        //         name:points[i+''].places[j],
+        //         value:[points[i+''].points[j][0],points[i+''].points[j][1],i-701]
+        //       })
+        //      }
+        //   }else{
+        //     //console.log(points[i+''])
+        //     geopoints[i-701]=geopoints[i-702];
+        //   }
+        // }
+        //console.log(points2)
         let geopoints = [];
         let totalpoints = [];
-        let time = ['701'];
-        for(let i=701;i<761;i++)
+        let time = ['705'];
+        for(let i=705;i<=762;i++)
         {
-          geopoints[i-701]=[];
-          time.push(i-701);
-          if(points[i+''] != null)
-            for(let j=0;j<points[i+''].places.length;j++)
+          geopoints[i-705]=[];
+          time.push(i-705);
+          if(points2[i+'']!=null){
+            for(let j=0;j<points2[i+''].place.length;j++)
             {
-              geopoints[i-701].push({
-                name:points[i+''].places[j],
-                value:[points[i+''].points[j][0],points[i+''].points[j][1],1]
+              //console.log(points2[i+''].place.length)
+              geopoints[i-705].push({
+                name:points2[i+''].place[j],
+                value:[points2[i+''].point[j][0],points2[i+''].point[j][1],1]
               })
               totalpoints.push({
-                name:points[i+''].places[j],
-                value:[points[i+''].points[j][0],points[i+''].points[j][1],i-701]
+                name:points2[i+''].place[j],
+                value:[points2[i+''].point[j][0],points2[i+''].point[j][1],i-705]
               })
-            }else{
-            geopoints[i-701]=geopoints[i-702];
+            }
+          }else{
+            //console.log(points[i+''])
+            geopoints[i-705]=geopoints[i-705-1];
           }
         }
 
+
+        // console.log(geopoints);
+        // console.log(totalpoints);
+        // console.log(time)
         let ops = [];
 
         for(let i=0;i<time.length;i++)
@@ -98,7 +126,7 @@
             }
           })
         }
-        console.log(ops)
+        //console.log(ops)
         this.drawMap(datamap,time,ops)
       },
 
@@ -112,7 +140,7 @@
             backgroundColor: '#DEB887',
             title: {
               text: '唐朝李白诗人轨迹',
-              subtext: '701年-762年',
+              subtext: '705年-762年',
               x:'center',
             },
             tooltip: {
@@ -190,7 +218,7 @@
     position: absolute;
     margin-left: 5px;
     margin-top: 5px;
-  } 
+  }
 #photo img{
     width: 15%;
     height: 25%;
