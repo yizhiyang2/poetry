@@ -9,6 +9,7 @@
 
     <div class="center">
       <peoMap class='china_map'></peoMap>
+      <peo-event></peo-event>
     </div>
 
     <!-- <div class="right">
@@ -17,6 +18,7 @@
     </div> -->
     
     <div class="bottom"> 
+       <peo-slider></peo-slider>
       <peo-note></peo-note>
       <!-- <peo-history></peo-history> -->
       <peo-relation></peo-relation>
@@ -29,8 +31,12 @@
   import peotryList from './components/peotry_list';
   import peoMap from './components/map';
   import peoRelation from './components/relationship';
-  import peoHistory from './components/bgevents'
-  import peoNote from './components/peotry_note'
+  import peoHistory from './components/bgevents';
+  import peoNote from './components/peotry_note';
+  import peoSlider from './components/Slider';
+  import VueSlider from 'vue-slider-component'
+  import peoEvent from './components/peo_event'
+  import 'vue-slider-component/theme/default.css'
 
   export default {
     name: 'App',
@@ -40,7 +46,15 @@
       peoMap,
       peoRelation,
       peoHistory,
-      peoNote
+      peoNote,
+      peoSlider,
+      VueSlider,
+      peoEvent
+    },
+    data: function () {
+      return {
+
+      }
     }
   }
 </script>
@@ -71,6 +85,8 @@
     float: left;
     width: 75%;
     height: 60%;
+    position:relative;
+    z-index: -1;
     /* height: 100%; */
   }
   /* .right{

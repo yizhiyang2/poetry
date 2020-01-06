@@ -118,7 +118,7 @@
   #outer{
     /* margin-left: 50px; */
     width: 49%;
-    height: 100%;
+    height: 87%;
     margin-top: 2%;
     /* border:1px solid #aaa; */
     float: left;

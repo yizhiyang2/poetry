@@ -50,7 +50,7 @@
 <style>
   #peotry_note{
     width: 48%;
-    height: 100%;
+    height:87%;
     margin: 2% 1% 1% 0;
     left: 0;
     background: antiquewhite;
