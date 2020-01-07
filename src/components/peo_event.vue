@@ -40,7 +40,6 @@ export default {
         }
       }
       this.m_history = history;
-      console.log(this.m_history);
       //this.drawhistory(history);
     });
     pubsub.subscribe("Slider_time", (msg, data) => {
@@ -59,7 +58,6 @@ export default {
       oDiv2.id = "div2";
 
       for (var i = 0; i < data.length; i++) {
-          console.log(this.sliderTime[1])
         if ((data[i]["time_start"]<= this.sliderTime[1]&&(data[i]["time_end"]>this.sliderTime[0]))) {
           var oP = document.createElement("p");
           oP.innerHTML += data[i]["event"];

@@ -86,7 +86,6 @@ npm run<template>
     width: 75%;
     height: 60%;
     position:relative;
-    z-index: -1;
     /* height: 100%; */
   }
   /* .right{
