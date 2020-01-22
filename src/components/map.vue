@@ -22,15 +22,15 @@ export default {
   name: "geoMap",
   data() {
     return {
-      sliderTime: [701, 711],
+      sliderTime: [701, 762]
     };
   },
   mounted: function() {
-    var map,point;
+    var map, point;
     let res = axios.get("/api/china.json").then(res => {
       let ll = axios.get("/api/LiBai_charonicle2.json").then(ll2 => {
-        map=res.data;
-        point=ll2.data;
+        map = res.data;
+        point = ll2.data;
         this.initData(res.data, ll2.data);
         this.$store.commit("map", ll2.data);
       });
@@ -121,8 +121,18 @@ export default {
       chart.setOption(option);
 
       chart.on("click", d => {
-        // this.$store.commit('mapdata',d.value)
-        pubsub.publish("pub_mapdata", d);
+        this.$store.commit('mapdata',d.value)
+        // if (!d["data"]["name"]) {
+        //   alert("请点击地图标记点。");
+        //   pubsub.publish("pub_mapdata", d["data"]["name"]);
+        // } else {
+        //   pubsub.publish("pub_mapdata", d["data"]["name"]);
+        // }
+        try {
+          pubsub.publish("pub_mapdata", d["data"]["name"]);
+        } catch (err) {
+          alert("请点击地图标记点。");
+        }
       });
     }
   }

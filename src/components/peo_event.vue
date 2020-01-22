@@ -14,7 +14,7 @@ export default {
   name: "poeHistory",
   data() {
     return {
-      sliderTime: [701, 711],
+      sliderTime: [701, 762],
       m_history: []
     };
   },
