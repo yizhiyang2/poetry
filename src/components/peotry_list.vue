@@ -26,11 +26,12 @@ export default {
       mydata: [],
       sliderTime: [701, 762],
       init: ["false"],
-      location: ""
+      location: "",
+      cancel: ["false"]
     };
   },
   mounted: function() {
-    let res = axios.get("/api/Poet-time.json").then(res => {
+    let res = axios.get("/api/LiBai_2020.json").then(res => {
       // var ret = d3.csvParse(res.data)
       for (let i = 0; i < res.data.length; i++) {
         this.mydata.push({
@@ -47,6 +48,7 @@ export default {
     //接受词云点击反馈
     pubsub.subscribe("pub_cloudType", (msg, data) => {
       this.cloudType = data;
+      console.log("词云：" + this.cloudType);
       this.addList(this.mydata);
     });
     pubsub.subscribe("Slider_time", (msg, data) => {
@@ -61,10 +63,12 @@ export default {
     });
 
     pubsub.subscribe("Cancel", (msg, data) => {
-      this.init[0]='false'
-      this.cloudType=''
-      this.location=''
-      console.log("xxxx")
+      this.init[0] = "ture";
+      console.log(this.init[0]);
+      this.cloudType = "";
+      this.location = "";
+      this.cancel[0] = "ture";
+      console.log(this.cancel[0]);
       this.addList(this.mydata);
     });
   },
@@ -74,13 +78,38 @@ export default {
       var table = document.getElementById("uls");
       var that = this;
 
-        if (!that.cloudType) {
-          //不存在词云过滤
-          if (that.init[0] == "false") {
-            //初始化
-            for (var i = 0; i < data.length; i++) {
-              var raw = document.createElement("tr");
-              // for(var j=0;j<3;j++)
+      if (!that.cloudType) {
+        //不存在词云过滤
+        if (that.init[0] == "false") {
+          //初始化
+          console.log("初始化");
+          for (var i = 0; i < data.length; i++) {
+            var raw = document.createElement("tr");
+            // for(var j=0;j<3;j++)
+            {
+              if (i == data.length) break;
+              var td = document.createElement("td");
+              td.className = "peotries";
+              td.innerHTML = data[i].title;
+              raw.appendChild(td);
+            }
+
+            table.appendChild(raw);
+          }
+        } else {
+          //存在时间过滤
+          parent_uls.removeChild(parent_uls.childNodes[0]);
+          var uls = document.createElement("ul");
+          uls.id = "Timeuls";
+          // parent_uls.appendChild(uls);
+          // var mytable = document.getElementById("uls");
+          var raw = document.createElement("tr");
+          for (var i = 0; i < data.length; i++) {
+            if (
+              data[i].time <= that.sliderTime[1] &&
+              data[i].time >= that.sliderTime[0]
+            ) {
+              // var raw = document.createElement("tr");
               {
                 if (i == data.length) break;
                 var td = document.createElement("td");
@@ -88,107 +117,96 @@ export default {
                 td.innerHTML = data[i].title;
                 raw.appendChild(td);
               }
-
-              table.appendChild(raw);
-            }
-          } else {
-            //存在时间过滤
-            parent_uls.removeChild(parent_uls.childNodes[0]);
-            var uls = document.createElement("ul");
-            uls.id = "uls";
-            parent_uls.appendChild(uls);
-            var mytable = document.getElementById("uls");
-            for (var i = 0; i < data.length; i++) {
-              if (
-                data[i].time <= that.sliderTime[1] &&
-                data[i].time >= that.sliderTime[0]
-              ) {
-                var raw = document.createElement("tr");
-                {
-                  if (i == data.length) break;
-                  var td = document.createElement("td");
-                  td.className = "peotries";
-                  td.innerHTML = data[i].title;
-                  raw.appendChild(td);
-                }
-                mytable.appendChild(raw);
-              }
+              // mytable.appendChild(raw);
             }
           }
-        } else {
-          //存在词云过滤
-          parent_uls.removeChild(parent_uls.childNodes[0]);
-          var uls = document.createElement("ul");
-          uls.id = "uls";
+          uls.appendChild(raw);
+          console.log(uls);
           parent_uls.appendChild(uls);
-          var mytable = document.getElementById("uls");
-          for (var i = 0; i < data.length; i++) {
-            if (i == data.length) break;
-            var str = "";
-            for (var iterm in data[i].category) {
-              str = str + data[i].category[iterm];
-            }
-
-            if (
-              str.indexOf(that.cloudType) != -1 &&
-              data[i].time <= that.sliderTime[1] &&
-              data[i].time >= that.sliderTime[0]
-            ) {
-              var raw = document.createElement("tr");
-              var td = document.createElement("td");
-              td.className = "peotries";
-              td.innerHTML = data[i].title;
-              raw.appendChild(td);
-              mytable.appendChild(raw);
-            }
-          }
         }
-
-        if(this.location)
-        {
-                    parent_uls.removeChild(parent_uls.childNodes[0]);
-          var uls = document.createElement("ul");
-          uls.id = "uls";
-          parent_uls.appendChild(uls);
-          var mytable = document.getElementById("uls");
-          for (var i = 0; i < data.length; i++) {
-            if (i == data.length) break;
-            if (
-              data[i].place==that.location &&
-              data[i].time <= that.sliderTime[1] &&
-              data[i].time >= that.sliderTime[0]
-            ) {
-              var raw = document.createElement("tr");
-              var td = document.createElement("td");
-              td.className = "peotries";
-              td.innerHTML = data[i].title;
-              raw.appendChild(td);
-              mytable.appendChild(raw);
-            }
-          }
-        }
-
+      } else {
+        //存在词云过滤
+        var test = 0;
         parent_uls.removeChild(parent_uls.childNodes[0]);
         var uls = document.createElement("ul");
-        uls.id = "uls";
-        parent_uls.appendChild(uls);
-        var mytable = document.getElementById("uls");
-
+        uls.id = "myuls";
+        // parent_uls.appendChild(uls);
+        //var mytable = document.getElementById("uls");
+        var raw = document.createElement("tr");
         for (var i = 0; i < data.length; i++) {
+          if (i == data.length) break;
+          var str = "";
+          for (var iterm in data[i].category) {
+            str = str + data[i].category[iterm];
+          }
+
+          if (
+            str.indexOf(that.cloudType) != -1 &&
+            data[i].time <= that.sliderTime[1] &&
+            data[i].time >= that.sliderTime[0]
+          ) {
+            test++;
+            //var raw = document.createElement("tr");
+            var td = document.createElement("td");
+            td.className = "peotries";
+            td.innerHTML = data[i].title;
+            raw.appendChild(td);
+          }
+        }
+        uls.appendChild(raw);
+        console.log(uls);
+        parent_uls.appendChild(uls);
+        console.log(parent_uls);
+
+        // console.log(mytable);
+        // console.log(test)
+      }
+
+      if (this.location) {
+        parent_uls.removeChild(parent_uls.childNodes[0]);
+        var uls = document.createElement("ul");
+        uls.id = "localuls";
+        // parent_uls.appendChild(uls);
+        // var mytable = document.getElementById("uls");
+        var raw = document.createElement("tr");
+        for (var i = 0; i < data.length; i++) {
+          if (i == data.length) break;
           if (
             data[i].place == that.location &&
             data[i].time <= that.sliderTime[1] &&
             data[i].time >= that.sliderTime[0]
           ) {
-            var raw = document.createElement("tr");
             var td = document.createElement("td");
             td.className = "peotries";
             td.innerHTML = data[i].title;
             raw.appendChild(td);
-            mytable.appendChild(raw);
+            // mytable.appendChild(raw);
           }
+          uls.appendChild(raw);
+          parent_uls.appendChild(uls);
         }
-      
+      }
+
+      // parent_uls.removeChild(parent_uls.childNodes[0]);
+      // var uls = document.createElement("ul");
+      // uls.id = "uls";
+      // parent_uls.appendChild(uls);
+      // var mytable = document.getElementById("uls");
+
+      // for (var i = 0; i < data.length; i++) {
+      //   if (
+      //     data[i].place == that.location &&
+      //     data[i].time <= that.sliderTime[1] &&
+      //     data[i].time >= that.sliderTime[0]
+      //   ) {
+      //     var raw = document.createElement("tr");
+      //     var td = document.createElement("td");
+      //     td.className = "peotries";
+      //     td.innerHTML = data[i].title;
+      //     raw.appendChild(td);
+      //     mytable.appendChild(raw);
+      //   }
+      // }
 
       jq("td").click(function() {
         console.log(data);
@@ -250,14 +268,15 @@ h2 {
   border: 1px solid #aaa;
 }
 
-tr {
+/* tr {
   align-content: center;
   text-align: center;
-}
+  float: left;
+} */
 .peotries {
   margin-left: 5px;
   margin-right: 5px;
-  width: 580px;
+  width: 400px;
   height: 50px;
   line-height: 50px;
   border: 1px solid #aaa;
@@ -295,5 +314,19 @@ tr:hover {
 }
 #parent_uls {
   border: 3px solid #000;
+}
+th,
+td {
+  display: block;
+}
+tr {
+  display: block;
+  /* float: left; */
+  align-content: center;
+  text-align: center;
+  float: left;
+}
+table {
+  display: block;
 }
 </style>

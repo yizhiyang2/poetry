@@ -45,13 +45,18 @@ export default {
   methods: {
     initData(datamap, points2) {
       var pointData = [];
+      var lastLocal="";
       for (let i = this.sliderTime[0]; i <= this.sliderTime[1]; i++) {
         if (points2[i]) {
           for (let j = 0; j < points2[i].place.length; j++) {
-            pointData.push({
+            if(!(lastLocal==points2[i]["place"][j]))
+            {
+              pointData.push({
               name: points2[i]["place"][j],
               value: points2[i]["point"][j]
             });
+            lastLocal=points2[i]["place"][j];
+            }
           }
         }
       }
@@ -121,7 +126,7 @@ export default {
       chart.setOption(option);
 
       chart.on("click", d => {
-        this.$store.commit('mapdata',d.value)
+        this.$store.commit("mapdata", d.value);
         // if (!d["data"]["name"]) {
         //   alert("请点击地图标记点。");
         //   pubsub.publish("pub_mapdata", d["data"]["name"]);
