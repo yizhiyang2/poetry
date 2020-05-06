@@ -42,10 +42,10 @@ export default {
       this.m_history = history;
       //this.drawhistory(history);
     });
-    pubsub.subscribe("Slider_time", (msg, data) => {
-      this.sliderTime = data;
-      this.drawhistory(this.m_history);
-    });
+    // pubsub.subscribe("Slider_time", (msg, data) => {
+    //   this.sliderTime = data;
+    //   this.drawhistory(this.m_history);
+    // });
   },
 
   methods: {
@@ -74,7 +74,8 @@ export default {
 #history {
   width: 30%;
   height: 50%;
-  margin-top: 2%;
+  top:50%;
+  margin-bottom: 10%;
   float: right;
   position: relative;
   color: #6f60aa;

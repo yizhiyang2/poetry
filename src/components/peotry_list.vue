@@ -43,12 +43,12 @@ export default {
           place: res.data[i].place
         });
       }
+      console.log(this.mydata.length)
       this.addList(this.mydata);
     });
     //接受词云点击反馈
     pubsub.subscribe("pub_cloudType", (msg, data) => {
       this.cloudType = data;
-      console.log("词云：" + this.cloudType);
       this.addList(this.mydata);
     });
     pubsub.subscribe("Slider_time", (msg, data) => {

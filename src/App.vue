@@ -10,13 +10,14 @@ npm run<template>
     <div class="center">
       <peoMap class='china_map'></peoMap>
       <peo-event></peo-event>
+      <peo-history></peo-history>
     </div>
 
     <!-- <div class="right">
       <peo-history></peo-history>
       <peo-relation class='relation'></peo-relation>
     </div> -->
-    
+    <!-- <peo-history></peo-history> -->
     <div class="bottom"> 
        <peo-slider></peo-slider>
       <peo-note></peo-note>
