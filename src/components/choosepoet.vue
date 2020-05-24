@@ -15,11 +15,12 @@
 		mounted:function(){
 		var data=new Array();
 		
-		axios.get("/api/history.csv").then(res=>{
+		axios.get("/api/history_tang_poem.csv").then(res=>{
 			var basicData=[]
 			var partData=[]
 			var name=[];
 			var infect=[];
+			var datas=[]
 				var data = d3.csvParse(res.data)
 				for(var i=0;i<data.length;i++){
 					if(data[i].start != ''){
@@ -27,17 +28,19 @@
 						partData.push(data[i].end-data[i].start+1)
 						name.push(data[i]['名称'])
 						infect.push(data[i]['影响'])
+						datas.push(data[i].poetry)
 					}
 					
 				}
-				this.draw(basicData,partData,name,infect)
+				console.log(datas)
+				this.draw(basicData,partData,name,infect,datas)
 				
 			})
 			
 		},
 		methods:{
-			draw(basicData,partData,name,infect){
-				var data = [0,10,20,55,14,13,97,56,84,55,36,15,23,19,14,12,7,4]
+			draw(basicData,partData,name,infect,datas){
+				// var data = [0,10,20,55,14,13,97,56,84,55,36,15,23,19,14,12,7,4]
 				var chart = echarts.init(document.getElementById("hstry-con"))
 				var option = {
 				    title: {
@@ -157,7 +160,7 @@
 								color:'rgba(190,14,14,1)',
 								width:5
 							},
-							data:data,
+							data:datas,
 							xAxisIndex:1,
 						}
 				       
